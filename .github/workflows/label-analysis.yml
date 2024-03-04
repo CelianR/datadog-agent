@@ -33,7 +33,7 @@ jobs:
         id: pr-labels
         uses: jitterbit/get-changed-files@v1
       - run: |
-          // TODO : github.event.pull_request.labels
+          # TODO : github.event.pull_request.labels
           for changed_file in ${{ steps.files.outputs.all }}; do
             echo "- ${changed_file}"
           done
