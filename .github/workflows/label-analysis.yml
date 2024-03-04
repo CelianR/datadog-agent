@@ -55,8 +55,9 @@ jobs:
           done
           echo "COMMAND: ${command[@]}"
           labelname="$("${command[@]}")"
-          if [ "$#" != 0 ]; then
-            # Cannot deduce
+          exitcode="$?"
+          if [ "$exitcode" != 0 ]; then
+            echo "Cannot deduce team (got exit code $exitcode)"
             exit
           fi
           gh pr edit '${{ github.event.number }}' --add-label "$labelname"
