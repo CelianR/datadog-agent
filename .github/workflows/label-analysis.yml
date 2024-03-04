@@ -45,13 +45,13 @@ jobs:
         id: files
         uses: jitterbit/get-changed-files@v1
         with:
-          format: 'json'
+          format: 'csv'
       - name: Auto assign team label
         run: |
           command=( inv -e github.auto-assign-team-label --pr-id='${{ github.event.pull_request.id }}' )
           mapfile -d ',' -t files < <(printf '%s,' '${{ steps.files.outputs.all }}')
           for file in "${files[@]}"; do
-            command+=(  --changed-files="$file" )
+            command+=( --changed-files="$file" )
           done
           echo "COMMAND: ${command[@]}"
           "${command[@]}"
