@@ -47,7 +47,7 @@ jobs:
         with:
           format: 'csv'
       - name: Auto assign team label
-        run: inv -e github.auto-assign-team-label --pr_id='${{ github.event.pull_request.id }}' --changed_files='${{ steps.files.outputs.all }}'
+        run: inv -e github.auto-assign-team-label --pr-id='${{ github.event.pull_request.id }}' --changed-files='${{ steps.files.outputs.all }}'
   team-label:
     needs: fetch-labels
     if: github.triggering_actor != 'dd-devflow[bot]'
