@@ -36,7 +36,6 @@ jobs:
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
           pip install -r tasks/libs/requirements-github.txt
       - name: Assign labels
         id: files
