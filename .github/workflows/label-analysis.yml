@@ -40,15 +40,14 @@ jobs:
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r tasks/libs/requirements-github.txt
-          pip install -r tasks/libs/requirements-notifications.txt
+          pip install -r tasks/requirements.txt
       - name: Assign labels
         id: files
         uses: jitterbit/get-changed-files@v1
         with:
           format: 'csv'
       - name: Auto assign team label
-        run: invoke auto_assign_team_label --pr_id='${{ github.event.pull_request.id }}' --changed_files='${{ steps.files.outputs.all }}'
+        run: inv -e github.auto-assign-team-label --pr_id='${{ github.event.pull_request.id }}' --changed_files='${{ steps.files.outputs.all }}'
   team-label:
     needs: fetch-labels
     if: github.triggering_actor != 'dd-devflow[bot]'
