@@ -34,9 +34,11 @@ jobs:
         uses: jitterbit/get-changed-files@v1
       - run: |
           # TODO : github.event.pull_request.labels
+          echo CHANGED
           for changed_file in ${{ steps.files.outputs.all }}; do
             echo "- ${changed_file}"
           done
+          echo END
   team-label:
     needs: fetch-labels
     if: github.triggering_actor != 'dd-devflow[bot]'
