@@ -1,6 +1,7 @@
 import os
 import re
 import time
+import fnmatch
 from functools import lru_cache
 
 from invoke import Exit, task
@@ -191,6 +192,38 @@ def get_token_from_app(_, app_id_env='GITHUB_APP_ID', pkey_env='GITHUB_KEY_B64')
 
 
 @task
-def auto_assign_team_label(_, pr_id=-1, changed_files=[]):
-    print('auto_assign_team_label', pr_id, changed_files)
+def deduce_team_label(_, pr_id=-1, changed_files=[]):
+    """
+    Print the github team label name if a single team can
+    be deduced from the changed files
+    """
+    def get_team() -> str | None:
+        from codeowners import CodeOwners
 
+        with open('.github/CODEOWNERS') as f:
+            codeowners = CodeOwners(f.read())
+    
+        global_team = None
+        for file in changed_files:
+            owners = [name for (kind, name) in codeowners.of(file) if kind == 'TEAM']
+            if len(owners) != 1:
+                # Multiple / no owners case
+                return
+            else:
+                file_team = owners[0] 
+                if global_team is not None and file_team != global_team:
+                    # Multiple owners case
+                    return
+                else:
+                    global_team = file_team
+
+        return global_team
+
+    # Find team
+    team = get_team()
+    assert team is not None, 'No team or multiple teams found'
+    assert team.startswith('@DataDog/'), f'Unknown team {team}'
+    
+    # Print label
+    label_name = 'team' + team.removeprefix('@DataDog')
+    print(label_name)
