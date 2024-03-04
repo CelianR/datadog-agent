@@ -188,3 +188,9 @@ def get_token_from_app(_, app_id_env='GITHUB_APP_ID', pkey_env='GITHUB_KEY_B64')
     from .libs.common.github_api import GithubAPI
 
     GithubAPI.get_token_from_app(app_id_env, pkey_env)
+
+
+@task
+def auto_assign_team_label(pr_id, changed_files):
+    print('auto_assign_team_label', pr_id, changed_files)
+
