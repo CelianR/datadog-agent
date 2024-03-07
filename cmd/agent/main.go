@@ -37,6 +37,7 @@ func init() {
 }
 
 func main() {
+// Some change
 	process := strings.TrimSpace(os.Getenv("DD_BUNDLED_AGENT"))
 
 	if process == "" {
