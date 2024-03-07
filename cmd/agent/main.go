@@ -37,9 +37,6 @@ func init() {
 }
 
 func main() {
-	os.Exit(1)
-
-        /*
 	process := strings.TrimSpace(os.Getenv("DD_BUNDLED_AGENT"))
 
 	if process == "" {
@@ -67,5 +64,4 @@ func main() {
 
 	rootCmd := agentCmdBuilder()
 	os.Exit(runcmd.Run(rootCmd))
-        */
 }
